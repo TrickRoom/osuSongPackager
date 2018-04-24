@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,5 +22,33 @@ namespace osuSongPackager {
         public MainWindow() {
             InitializeComponent();
         }
+
+        private void Open_Click(object sender, RoutedEventArgs e) {
+            // Create OpenFileDialog 
+            var dialog = new System.Windows.Forms.FolderBrowserDialog();
+            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+
+            // Get the selected file name and display in a TextBox 
+            if (result == System.Windows.Forms.DialogResult.OK) {
+                // Open document 
+                string mdirectory = dialog.SelectedPath;
+                string[] directories = System.IO.Directory.GetDirectories(mdirectory);
+                try {
+                    Song temp = LoadSong.SongLoader(mdirectory);
+                    Console.WriteLine(temp.ToString());
+
+                }
+                catch {
+                    Console.WriteLine("Bad Song");
+                }
+                
+               //ArrayList songs = sl.LoadSongs(filename);
+
+            } 
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e) {
+        }
+
     }
 }
