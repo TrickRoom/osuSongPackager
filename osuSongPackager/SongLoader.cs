@@ -17,6 +17,10 @@ namespace osuSongPackager
             String line, mask = "*.osu";
             String[] files = Directory.GetFiles(dirPath, mask);
             //ERRCHECK
+            if (files.Length == 0) {
+                Debug.WriteLine(validityCount);
+                throw new InvalidSongException();
+            }
             String targetFile = files[0];
             StreamReader reader = File.OpenText(targetFile);
             //ERRCHECK
@@ -82,7 +86,6 @@ namespace osuSongPackager
                 }
             }
 
-            //Console.WriteLine(tempSong.ToString());
             if (validityCount < 2) {
                 Debug.WriteLine(validityCount);
                 throw new InvalidSongException();
@@ -93,13 +96,11 @@ namespace osuSongPackager
         }
     }
 }
-//todo
 /*
  * take in song folder
  * identify .osu file
  * read in specific parts of beatmap file
  * copy to song object
- * verify validity of song object (song object should have a validity function) // or better yet have a count and increase count when important things are added ot song
- *  that way you can just check the count for validity
+ * verify validity of song object 
  * return song object
 */

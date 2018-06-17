@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -21,6 +22,15 @@ namespace osuSongPackager {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
+            populateListView();
+        }
+
+        private void populateListView() {
+            List<Song> songs = new List<Song>();
+            songs.Add(new Song() { Title = "song1", Artist = "swoog swog", AudioFilename="temp.mp3"});
+            songs.Add(new Song() { Title = "song2", Artist = "swoog swog", AudioFilename = "temp.mp3" });
+            songs.Add(new Song() { Title = "song1", Artist = "swoog sw2og", AudioFilename = "temp.mp3" });
+            lView.ItemsSource = songs;
         }
 
         private void Open_Click(object sender, RoutedEventArgs e) {
@@ -31,7 +41,13 @@ namespace osuSongPackager {
             // Get the selected file name and display in a TextBox 
             if (result == System.Windows.Forms.DialogResult.OK) {
                 // Open document 
-                string mdirectory = dialog.SelectedPath;
+
+                string mDirectory = dialog.SelectedPath;
+                ParseSongs pw = new ParseSongs(mDirectory);
+                pw.Owner = this;
+                pw.ShowDialog();
+
+                /*
                 string[] directories = System.IO.Directory.GetDirectories(mdirectory);
                 try {
                     Song temp = LoadSong.SongLoader(mdirectory);
@@ -43,11 +59,12 @@ namespace osuSongPackager {
                 }
                 
                //ArrayList songs = sl.LoadSongs(filename);
-
+               */
             } 
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e) {
+         
         }
 
     }
