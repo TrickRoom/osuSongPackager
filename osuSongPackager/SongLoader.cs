@@ -6,19 +6,19 @@ namespace osuSongPackager
 {
     class LoadSong
     {
-        public static Song SongLoader(String dirPath)
+        public static Song SongLoader(string dirPath)
         {
             Song tempSong = new Song();
             int validityCount = 0;
-            String line, mask = "*.osu";
-            String[] files = Directory.GetFiles(dirPath, mask);
+            string line, mask = "*.osu";
+            string[] files = Directory.GetFiles(dirPath, mask);
             //ERRCHECK
             if (files.Length == 0)
             {
                 Debug.WriteLine(validityCount);
                 throw new InvalidSongException();
             }
-            String targetFile = files[0];
+            string targetFile = files[0];
 
             // The File.OpenText method uses unmanaged resources that block the GC from collecting memory in your method until the unmanaged resources are released
             // These kind of classes always follow the "Dispose" pattern to release unmanaged resources and should be cleaned up after you're done using them
