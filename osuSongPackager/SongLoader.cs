@@ -19,85 +19,89 @@ namespace osuSongPackager
                 throw new InvalidSongException();
             }
             String targetFile = files[0];
-            StreamReader reader = File.OpenText(targetFile);
-            //ERRCHECK
 
-            //add directory to song
-            tempSong.Directory = dirPath;
-            tempSong.DateDownloaded = File.GetCreationTime(targetFile);
-            //add everything else to song 
-            while ((line = reader.ReadLine()) != null)
+            // The File.OpenText method uses unmanaged resources that block the GC from collecting memory in your method until the unmanaged resources are released
+            // These kind of classes always follow the "Dispose" pattern to release unmanaged resources and should be cleaned up after you're done using them
+            // See https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/using-statement
+            using (StreamReader reader = File.OpenText(targetFile))
             {
-                string temp = "";
-                if (line.StartsWith("AudioFilename"))
+                //add directory to song
+                tempSong.Directory = dirPath;
+                tempSong.DateDownloaded = File.GetCreationTime(targetFile);
+                //add everything else to song 
+                while ((line = reader.ReadLine()) != null)
                 {
-                    temp = line.Substring(line.IndexOf(":") + 2);
-                    validityCount++;
-                    tempSong.AudioFilename = temp;
-                }
-                else if (line.StartsWith("Title"))
-                {
-                    if (line.Substring(line.IndexOf("Title") + 5).StartsWith("Unicode"))
-                    { //In case of titleUnicode
-                        temp = line.Substring(line.IndexOf(":") + 1);
-                        tempSong.TitleUnicode = temp;
-                    }
-                    else
-                    { //normal Title
-                        temp = line.Substring(line.IndexOf(":") + 1);
-                        tempSong.Title = temp;
-                    }
-                    validityCount++;
-                }
-                else if (line.StartsWith("Artist"))
-                {
-                    if (line.Substring(line.IndexOf("Artist") + 6).StartsWith("Unicode"))
-                    { //In case of artistUnicode
-                        temp = line.Substring(line.IndexOf(":") + 1);
-                        tempSong.ArtistUnicode = temp;
-                    }
-                    else
-                    { //normal Artist
-                        temp = line.Substring(line.IndexOf(":") + 1);
-                        tempSong.Artist = temp;
-                    }
-                }
-                else if (line.StartsWith("Creator"))
-                {
-                    temp = line.Substring(line.IndexOf(":") + 1);
-                    tempSong.Creator = temp;
-                }
-                else if (line.StartsWith("Source"))
-                {
-                    temp = line.Substring(line.IndexOf(":") + 1);
-                    tempSong.Source = temp;
-                }
-                else if (line.StartsWith("Tags"))
-                {
-                    temp = line.Substring(line.IndexOf(":") + 1);
-                    tempSong.Tags = temp.Split(' ');
-                }
-                else if (line.StartsWith("BeatmapSetID"))
-                {
-                    temp = line.Substring(line.IndexOf(":") + 1);
-                    int id;
-                    if (Int32.TryParse(temp, out id))
+                    string temp = "";
+                    if (line.StartsWith("AudioFilename"))
                     {
-                        tempSong.SongID = id;
+                        temp = line.Substring(line.IndexOf(":") + 2);
+                        validityCount++;
+                        tempSong.AudioFilename = temp;
                     }
-                    else
+                    else if (line.StartsWith("Title"))
                     {
-                        Debug.WriteLine(temp + ": Could not be parsed int an int");
+                        if (line.Substring(line.IndexOf("Title") + 5).StartsWith("Unicode"))
+                        { //In case of titleUnicode
+                            temp = line.Substring(line.IndexOf(":") + 1);
+                            tempSong.TitleUnicode = temp;
+                        }
+                        else
+                        { //normal Title
+                            temp = line.Substring(line.IndexOf(":") + 1);
+                            tempSong.Title = temp;
+                        }
+                        validityCount++;
                     }
-                }
-                else if (line.IndexOf("0,0,") == 0)
-                {
-                    temp = line.Substring(line.IndexOf("0"), line.Length - 1);
-                    temp = temp.Substring(5);
-                    tempSong.Background = temp;
+                    else if (line.StartsWith("Artist"))
+                    {
+                        if (line.Substring(line.IndexOf("Artist") + 6).StartsWith("Unicode"))
+                        { //In case of artistUnicode
+                            temp = line.Substring(line.IndexOf(":") + 1);
+                            tempSong.ArtistUnicode = temp;
+                        }
+                        else
+                        { //normal Artist
+                            temp = line.Substring(line.IndexOf(":") + 1);
+                            tempSong.Artist = temp;
+                        }
+                    }
+                    else if (line.StartsWith("Creator"))
+                    {
+                        temp = line.Substring(line.IndexOf(":") + 1);
+                        tempSong.Creator = temp;
+                    }
+                    else if (line.StartsWith("Source"))
+                    {
+                        temp = line.Substring(line.IndexOf(":") + 1);
+                        tempSong.Source = temp;
+                    }
+                    else if (line.StartsWith("Tags"))
+                    {
+                        temp = line.Substring(line.IndexOf(":") + 1);
+                        tempSong.Tags = temp.Split(' ');
+                    }
+                    else if (line.StartsWith("BeatmapSetID"))
+                    {
+                        temp = line.Substring(line.IndexOf(":") + 1);
+                        int id;
+                        if (Int32.TryParse(temp, out id))
+                        {
+                            tempSong.SongID = id;
+                        }
+                        else
+                        {
+                            Debug.WriteLine(temp + ": Could not be parsed int an int");
+                        }
+                    }
+                    else if (line.IndexOf("0,0,") == 0)
+                    {
+                        temp = line.Substring(line.IndexOf("0"), line.Length - 1);
+                        temp = temp.Substring(5);
+                        tempSong.Background = temp;
+                    }
                 }
             }
-
+            //ERRCHECK
             if (validityCount < 2)
             {
                 Debug.WriteLine(validityCount);
