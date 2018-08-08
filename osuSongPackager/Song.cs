@@ -7,10 +7,15 @@ namespace osuSongPackager
         // string's are unicode by default (UTF-16)
         // Required properties
         public string Directory { get; set; } = "";
+
         public string Title { get; set; } = "t";
+        public string TitleUnicode { get; set; } = "";
+
         public string AudioFilename { get; set; } = "";
 
         public string Artist { get; set; } = "";
+        public string ArtistUnicode { get; set; } = "";
+
         public string Creator { get; set; } = "";
         public string Source { get; set; } = "";
         public string Background { get; set; } = "";
