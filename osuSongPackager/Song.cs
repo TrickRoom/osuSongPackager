@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
-namespace osuSongPackager {
-    class Song {
+namespace osuSongPackager
+{
+    class Song
+    {
         //should have fields for title, title unicode, artist, artist unicode, etc.
         //maybe even picture
         private string directory, title, titleUnicode, artist, artistUnicode, creator, source, audioFilename, background;
         private String[] tags;
         private int songID, duration;
         private DateTime dateDownloaded;
-        public Song() {
+        public Song()
+        {
             songID = -1;
             directory = "";               //Required
             title = "t";                   //Required
@@ -42,7 +40,8 @@ namespace osuSongPackager {
         public DateTime DateDownloaded { get => dateDownloaded; set => dateDownloaded = value; }
 
         //not working
-        public string TitleUnicode {
+        public string TitleUnicode
+        {
             get {
                 return titleUnicode;
             }
@@ -52,7 +51,8 @@ namespace osuSongPackager {
         }
 
 
-        public string ArtistUnicode {
+        public string ArtistUnicode
+        {
             get {
                 return artistUnicode;
             }
@@ -61,8 +61,9 @@ namespace osuSongPackager {
             }
         }
 
-public override string ToString() {
-            return SongID + "\n" + directory + "\n" + title + "\n" + titleUnicode + "\n" 
+        public override string ToString()
+        {
+            return SongID + "\n" + directory + "\n" + title + "\n" + titleUnicode + "\n"
                 + artist + "\n" + artistUnicode + "\n" + creator + "\n" + source + "\n" + tags + "\n"
                 + audioFilename + "\n" + duration + "\n" + dateDownloaded + "\n" + background;
         }
