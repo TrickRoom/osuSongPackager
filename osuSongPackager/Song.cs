@@ -1,70 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
-namespace osuSongPackager {
-    class Song {
-        //should have fields for title, title unicode, artist, artist unicode, etc.
-        //maybe even picture
-        private string directory, title, titleUnicode, artist, artistUnicode, creator, source, audioFilename, background;
-        private String[] tags;
-        private int songID, duration;
-        private DateTime dateDownloaded;
-        public Song() {
-            songID = -1;
-            directory = "";               //Required
-            title = "t";                   //Required
-            titleUnicode = "tu";
-            artist = "";
-            artistUnicode = "";
-            creator = "";
-            source = "";
-            tags = new String[0];
-            audioFilename = "";           //Required
-            duration = -1;
-            dateDownloaded = new DateTime();
-            background = "";
-        }
+namespace osuSongPackager
+{
+    class Song
+    {
+        // string's are unicode by default (UTF-16)
+        // Required properties
+        public string Directory { get; set; } = "";
 
-        public string Directory { get => directory; set => directory = value; }
-        public string Title { get => title; set => title = value; }
-        public string Artist { get => artist; set => artist = value; }
-        public string Creator { get => creator; set => creator = value; }
-        public string Source { get => source; set => source = value; }
-        public string AudioFilename { get => audioFilename; set => audioFilename = value; }
-        public string Background { get => background; set => background = value; }
-        public string[] Tags { get => tags; set => tags = value; }
-        public int SongID { get => songID; set => songID = value; }
-        public int Duration { get => duration; set => duration = value; }
-        public DateTime DateDownloaded { get => dateDownloaded; set => dateDownloaded = value; }
+        public string Title { get; set; } = "t";
+        public string TitleUnicode { get; set; } = "";
 
-        //not working
-        public string TitleUnicode {
-            get {
-                return titleUnicode;
-            }
-            set {
-                titleUnicode = value;
-            }
-        }
+        public string AudioFilename { get; set; } = "";
 
+        public string Artist { get; set; } = "";
+        public string ArtistUnicode { get; set; } = "";
 
-        public string ArtistUnicode {
-            get {
-                return artistUnicode;
-            }
-            set {
-                artistUnicode = value;
-            }
-        }
+        public string Creator { get; set; } = "";
+        public string Source { get; set; } = "";
+        public string Background { get; set; } = "";
+        public string[] Tags { get; set; } = new string[0];
+        public int SongID { get; set; } = 0;
+        public int Duration { get; set; } = 0;
+        public DateTime DateDownloaded { get; set; } = DateTime.Now;
 
-public override string ToString() {
-            return SongID + "\n" + directory + "\n" + title + "\n" + titleUnicode + "\n" 
-                + artist + "\n" + artistUnicode + "\n" + creator + "\n" + source + "\n" + tags + "\n"
-                + audioFilename + "\n" + duration + "\n" + dateDownloaded + "\n" + background;
+        public Song()
+        { }
+
+        public override string ToString()
+        {
+            return SongID + "\n" + Directory + "\n" + Title + "\n"
+                + Artist + "\n" + Creator + "\n" + Source + "\n" + Tags + "\n"
+                + AudioFilename + "\n" + Duration + "\n" + DateDownloaded + "\n" + Background;
         }
     }
 }
